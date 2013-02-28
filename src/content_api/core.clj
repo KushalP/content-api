@@ -1,4 +1,5 @@
-(ns content-api.core)
+(ns content-api.core
+  (:gen-class))
 
 (defn foo
   "I don't do a whole lot."
