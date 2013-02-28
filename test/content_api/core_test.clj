@@ -1,7 +1,8 @@
 (ns content-api.core-test
   (:use clojure.test
-        content-api.core))
+        content-api.core
+        ring.mock.request))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest restful-endpoints
+  (testing "GET / (homepage)"
+    (is (= 200 (:status (app (request :get "/")))))))
