@@ -1,5 +1,6 @@
 (ns content-api.core
   (:use [compojure.core]
+        [content-api.data]
         [ring.adapter.jetty]
         [ring.middleware.json]
         [ring.util.response])
@@ -8,7 +9,11 @@
 
 (defroutes main-routes
   (GET "/" [] (response {:total 0, :current_page 1, :pages 1}))
-  (GET "/tags.json" [] (response {:test "t"})))
+  (GET "/tags.json" []
+       (let [tags (get-tags)]
+         (response {:total (count tags)
+                    :description "All tags"
+                    :results tags}))))
 
 (def app
   (handler/site (-> main-routes

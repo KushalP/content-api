@@ -1,6 +1,7 @@
 (ns content-api.core-test
   (:use [clojure.test]
         [content-api.core]
+        [content-api.data]
         [ring.mock.request])
   (:require [cheshire.core :refer :all]))
 
@@ -15,4 +16,11 @@
 
 (deftest tags
   (testing "GET /tags.json"
-    (is (= 200 (:status (app (request :get "/tags.json")))))))
+    (let [response (app (request :get "/tags.json"))
+          body (from-json (:body response))]
+      (testing "responds with status OK"
+        (is (= 200 (:status response))))
+      (testing "has a total"
+        (is (= 111 (:total body))))
+      (testing "has a description"
+        (is (= "All tags" (:description body)))))))
