@@ -1,12 +1,13 @@
 (ns content-api.core
   (:use [compojure.core]
         [ring.adapter.jetty]
-        [ring.middleware.json])
+        [ring.middleware.json]
+        [ring.util.response])
   (:require [compojure.handler :as handler])
   (:gen-class))
 
 (defroutes main-routes
-  (GET "/" [] "hello world"))
+  (GET "/" [] (response {:total 0, :current_page 1, :pages 1})))
 
 (def app
   (handler/site (-> main-routes
