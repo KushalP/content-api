@@ -7,7 +7,8 @@
   (:gen-class))
 
 (defroutes main-routes
-  (GET "/" [] (response {:total 0, :current_page 1, :pages 1})))
+  (GET "/" [] (response {:total 0, :current_page 1, :pages 1}))
+  (GET "/tags.json" [] (response {:test "t"})))
 
 (def app
   (handler/site (-> main-routes

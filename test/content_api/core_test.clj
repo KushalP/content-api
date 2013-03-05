@@ -12,3 +12,7 @@
     (is (= 200 (:status (app (request :get "/")))))
     (is (= {:current_page 1, :total 0, :pages 1}
            (from-json (:body (app (request :get "/"))))))))
+
+(deftest tags
+  (testing "GET /tags.json"
+    (is (= 200 (:status (app (request :get "/tags.json")))))))
