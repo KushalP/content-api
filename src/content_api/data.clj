@@ -9,5 +9,18 @@
 (defn- remove-ids [data]
   (map #(dissoc % :_id) data))
 
+(defprotocol ApiResponse
+  (formatted-response [_]))
+
+(defrecord Tag [description parent_id tag_id tag_type title]
+  ApiResponse
+  (formatted-response [_] {:title title
+                           :id nil
+                           :details {:description description
+                                     :type tag_type}}))
+
 (defn get-tags []
-  (remove-ids (mc/find-maps "tags")))
+  (letfn [(to-tag-model [x]
+            (Tag. (:description x) (:parent_id x)
+                  (:tag_id x) (:tag_type x) (:title x)))]
+    (map #(to-tag-model %) (remove-ids (mc/find-maps "tags")))))

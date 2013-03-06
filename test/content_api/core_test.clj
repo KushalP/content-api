@@ -23,4 +23,8 @@
       (testing "has a total"
         (is (= 111 (:total body))))
       (testing "has a description"
-        (is (= "All tags" (:description body)))))))
+        (is (= "All tags" (:description body))))
+      (testing "structure of a single tag result"
+        (is (= {:title "Business Link", :id nil,
+                :details {:description nil, :type "legacy_source"}}
+               (first (:results body))))))))

@@ -13,7 +13,7 @@
        (let [tags (get-tags)]
          (response {:total (count tags)
                     :description "All tags"
-                    :results tags}))))
+                    :results (map formatted-response tags)}))))
 
 (def app
   (handler/site (-> main-routes
