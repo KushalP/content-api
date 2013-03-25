@@ -6,11 +6,15 @@
         [ring.util.response])
   (:require [compojure.handler :as handler]
             [content-api.data :as data])
-  (:import [content_api.data Tag])
+  (:import [content_api.data Tag Artefact])
   (:gen-class))
 
 (defroutes main-routes
   (GET "/" [] (response {:total 0, :current_page 1, :pages 1}))
+  (GET "/artefacts.json" []
+       (let [artefacts (data/get-artefacts)]
+         (response {:total (count artefacts)
+                    :results (map #(formatted-response %) artefacts)})))
   (GET "/tags.json" {{type :type} :params}
        (let [tags (data/get-tags :type type)]
          (response {:total (count tags)

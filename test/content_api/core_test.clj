@@ -51,3 +51,15 @@
                                first
                                :details
                                :type))))))))
+
+(deftest artefacts
+  (testing "GET /artefacts.json"
+    (let [response (app (request :get "/artefacts.json"))
+          body (from-json (:body response))]
+      (testing "response with status OK"
+        (is (= 200 (:status response))))
+      (testing "count is 3210"
+        (is (= 3210 (:total body))))
+      (testing "artefact has a title and a format"
+        (is (= {:title "Bereavement Allowance", :format "programme"}
+               (first (:results body))))))))

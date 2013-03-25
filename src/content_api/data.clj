@@ -23,3 +23,14 @@
             (Tag. (:description x) (:parent_id x) (:tag_id x) (:tag_type x) (:title x)))]
     (let [where (into {} (filter second {:tag_type type}))]
       (map #(to-tag-model %) (remove-ids (mc/find-maps "tags" where))))))
+
+(defrecord Artefact [title format]
+    ApiResponse
+  (formatted-response [this]
+    {:title title
+     :format format}))
+
+(defn get-artefacts []
+  (letfn [(to-tag-model [x]
+            (Artefact. (:name x) (:kind x)))]
+    (map #(to-tag-model %) (remove-ids (mc/find-maps "artefacts")))))
