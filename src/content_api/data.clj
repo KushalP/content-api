@@ -18,8 +18,8 @@
      :details {:description description
                :type tag_type}}))
 
-(defn get-tags []
+(defn get-tags [& {:keys [type]}]
   (letfn [(to-tag-model [x]
-            (Tag. (:description x) (:parent_id x)
-                  (:tag_id x) (:tag_type x) (:title x)))]
-    (map #(to-tag-model %) (remove-ids (mc/find-maps "tags")))))
+            (Tag. (:description x) (:parent_id x) (:tag_id x) (:tag_type x) (:title x)))]
+    (let [where (into {} (filter second {:tag_type type}))]
+      (map #(to-tag-model %) (remove-ids (mc/find-maps "tags" where))))))

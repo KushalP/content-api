@@ -27,4 +27,17 @@
       (testing "structure of a single tag result"
         (is (= {:title "Business Link", :id nil,
                 :details {:description nil, :type "legacy_source"}}
-               (first (:results body))))))))
+               (first (:results body)))))))
+  (testing "GET /tags.json?type=?"
+    (testing "type is 'section'"
+      (let [response (app (request :get "/tags.json?type=section"))
+            body (from-json (:body response))]
+        (testing "responds with status OK"
+          (is (= 200 (:status response))))
+        (testing "result count is 1"
+          (is (= 109 (count (:results body)))))
+        (testing "the 'section' type will be provided"
+          (is (= "section" (-> (:results body)
+                               first
+                               :details
+                               :type))))))))

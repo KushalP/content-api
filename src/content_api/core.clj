@@ -11,8 +11,8 @@
 
 (defroutes main-routes
   (GET "/" [] (response {:total 0, :current_page 1, :pages 1}))
-  (GET "/tags.json" []
-       (let [tags (data/get-tags)]
+  (GET "/tags.json" {{type :type} :params}
+       (let [tags (data/get-tags :type type)]
          (response {:total (count tags)
                     :description "All tags"
                     :results (map #(formatted-response %) tags)}))))
