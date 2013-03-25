@@ -34,10 +34,20 @@
             body (from-json (:body response))]
         (testing "responds with status OK"
           (is (= 200 (:status response))))
-        (testing "result count is 1"
+        (testing "result count is 109"
           (is (= 109 (count (:results body)))))
         (testing "the 'section' type will be provided"
           (is (= "section" (-> (:results body)
+                               first
+                               :details
+                               :type))))))
+    (testing "type is 'legacy_source'"
+      (let [response (app (request :get "/tags.json?type=legacy_source"))
+            body (from-json (:body response))]
+        (testing "responds with status OK"
+          (is (= 200 (:status response))))
+        (testing "the 'legacy_source' type will be provided"
+          (is (= "legacy_source" (-> (:results body)
                                first
                                :details
                                :type))))))))
