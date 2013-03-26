@@ -23,16 +23,16 @@
     {:title (:title this)
      :format (:format this)}))
 
-(defn- remove-ids [data]
+(defn- remove-bson-ids [data]
   (map #(dissoc % :_id) data))
 
 (defn get-tags [& {:keys [type]}]
   (letfn [(to-tag-model [x]
             (Tag. (:description x) (:parent_id x) (:tag_id x) (:tag_type x) (:title x)))]
     (let [where (into {} (filter second {:tag_type type}))]
-      (map #(to-tag-model %) (remove-ids (mc/find-maps "tags" where))))))
+      (map #(to-tag-model %) (remove-bson-ids (mc/find-maps "tags" where))))))
 
 (defn get-artefacts []
   (letfn [(to-tag-model [x]
             (Artefact. (:name x) (:kind x)))]
-    (map #(to-tag-model %) (remove-ids (mc/find-maps "artefacts")))))
+    (map #(to-tag-model %) (remove-bson-ids (mc/find-maps "artefacts")))))
