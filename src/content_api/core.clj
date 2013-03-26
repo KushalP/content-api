@@ -1,12 +1,11 @@
 (ns content-api.core
   (:use [compojure.core]
-        [content-api.protocols]
         [ring.adapter.jetty]
         [ring.middleware.json]
         [ring.util.response])
   (:require [compojure.handler :as handler]
-            [content-api.data :as data])
-  (:import [content_api.data Tag Artefact])
+            [content-api.data :as data]
+            [content-api.protocols :as protocols])
   (:gen-class))
 
 (defroutes main-routes
@@ -14,12 +13,12 @@
   (GET "/artefacts.json" []
        (let [artefacts (data/get-artefacts)]
          (response {:total (count artefacts)
-                    :results (map #(formatted-response %) artefacts)})))
+                    :results (map #(protocols/formatted-response %) artefacts)})))
   (GET "/tags.json" {{type :type} :params}
        (let [tags (data/get-tags :type type)]
          (response {:total (count tags)
                     :description "All tags"
-                    :results (map #(formatted-response %) tags)}))))
+                    :results (map #(protocols/formatted-response %) tags)}))))
 
 (def app
   (handler/site (-> main-routes
