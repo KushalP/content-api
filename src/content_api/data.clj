@@ -1,5 +1,5 @@
 (ns content-api.data
-  (:use [content-api.protocols :only [ApiResponse formatted-response]]
+  (:use [content-api.protocols :only [ApiResponse]]
         [monger.conversion :only [from-db-object]])
   (:require [monger.collection :as mc]
             [monger.core :as mg]))
